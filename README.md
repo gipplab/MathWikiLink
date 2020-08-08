@@ -3,4 +3,4 @@
 </p>
 
 # MathWikiLink
-MathWikiLink - an Entity Linking System for Mathematical Formulae
+An Entity Linking System for Mathematical Formulae
