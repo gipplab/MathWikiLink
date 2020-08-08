@@ -1,2 +1,2 @@
 # MathWikiLink
-MathWikiLink - an entity linking system for mathematical formulae
+MathWikiLink - an Entity Linking System for Mathematical Formulae
