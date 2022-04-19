@@ -12,7 +12,7 @@ def home():
 <p>An Entity Linking System for Mathematical Formulae.</p>'''
 
 @app.route('/api/v1/identifier_names', methods=['GET'])
-def get_identifier_names(limit=5):
+def get_identifier_names():
 
     # Check if an identifier was provided as part of the URL.
     if 'identifier' in request.args:
@@ -21,7 +21,7 @@ def get_identifier_names(limit=5):
         return 'Error: No identifier attribute provided. Please specify an identifier.'
 
     # Open sources/identifier_name_recommendations
-    source_path = 'sources/'
+    source_path = 'sources/old/'
     sources = ['Wikidata', 'Wikipedia', 'arXiv']
     source_dicts = {}
     for source in sources:
@@ -31,11 +31,11 @@ def get_identifier_names(limit=5):
     # Get identifier name recommendations for input identifier
     results = {}
 
-    # limit to specific number (of identifier name recommendations)
+    # Limit to specific number (of identifier name recommendations)
     try:
         limit = int(request.args['limit'])
     except:
-        pass
+        limit=5
 
     def get_results(source,attribute,limit):
         if attribute == '':
@@ -58,5 +58,11 @@ def get_identifier_names(limit=5):
 
     # Convert dict to json
     return jsonify(results)
+
+@app.route('/api/v1/formula_names', methods=['GET'])
+def get_formula_names():
+
+    # Convert dict to json
+    return jsonify({})
 
 app.run()
