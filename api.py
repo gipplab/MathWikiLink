@@ -21,7 +21,7 @@ def get_identifier_names():
         return 'Error: No identifier attribute provided. Please specify an identifier.'
 
     # Open sources/identifier_name_recommendations
-    source_path = 'sources/old/'
+    source_path = 'backend/sources/old/'
     sources = ['Wikidata', 'Wikipedia', 'arXiv']
     source_dicts = {}
     for source in sources:
