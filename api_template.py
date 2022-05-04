@@ -20,8 +20,6 @@ def get_identifier_names():
     else:
         return 'Error: No identifier attribute provided. Please specify an identifier.'
 
-    # BEGIN ADAPT TO ANNOMATHTEX RETRIEVAL
-
     # Open sources/identifier_name_recommendations
     source_path = 'backend/sources/old/'
     sources = ['Wikidata', 'Wikipedia', 'arXiv']
@@ -29,8 +27,6 @@ def get_identifier_names():
     for source in sources:
         with open(source_path + '/' + 'identifier_name_recommendations_' + source + '.json', 'r') as f:
             source_dicts[source] = json.load(f)
-
-    # END ADAPT TO ANNOMATHTEX RETRIEVAL
 
     # Get identifier name recommendations for input identifier
     results = {}
