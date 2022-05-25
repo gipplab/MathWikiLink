@@ -1,36 +1,43 @@
+import os
+
 import flask
 from flask import request, jsonify
 
+from backend.annomathtex.views.helper_classes.token_clicked_handler import TokenClickedHandler
+
 import json
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.annomathtex.settings.development")
 
 app = flask.Flask(__name__)
 app.config['DEBUG'] = True
+
 
 @app.route('/', methods=['GET'])
 def home():
     return '''<h1>MathWikiLink</h1>
 <p>An Entity Linking System for Mathematical Formulae.</p>'''
 
+
 @app.route('/api/v1/identifier_names', methods=['GET'])
 def get_identifier_names():
 
-    # Check if an identifier was provided as part of the URL.
     if 'identifier' in request.args:
+        # Check if an identifier was provided as part of the URL.
         identifier = request.args['identifier']
     else:
         return 'Error: No identifier attribute provided. Please specify an identifier.'
 
-    # BEGIN ADAPT TO ANNOMATHTEX RETRIEVAL
+    annomathtex_item = {
+        'action': {'getRecommendations': ''},
+        'searchString': {identifier: ''},
+        'tokenType': {'Identifier': ''},
+        'uniqueId': {'0---0': ''},
+        'mathEnv': {'dummy': 'dummy'},
+        'annotations': 'none'
+    }
 
-    # Open sources/identifier_name_recommendations
-    source_path = 'backend/sources/old/'
-    sources = ['Wikidata', 'Wikipedia', 'arXiv']
-    source_dicts = {}
-    for source in sources:
-        with open(source_path + '/' + 'identifier_name_recommendations_' + source + '.json', 'r') as f:
-            source_dicts[source] = json.load(f)
-
-    # END ADAPT TO ANNOMATHTEX RETRIEVAL
+    response, source_dicts = TokenClickedHandler(annomathtex_item).get_recommendations()
 
     # Get identifier name recommendations for input identifier
     results = {}
@@ -41,32 +48,76 @@ def get_identifier_names():
     except:
         limit=5
 
-    def get_results(source,attribute,limit):
+    def get_results(source, attribute, limit):
         if attribute == '':
             return source_dicts[source][identifier][:limit]
         else:
             return [recommendation[attribute]
-             for recommendation in source_dicts[source][identifier][:limit]]
+                    for recommendation in source_dicts[source][:limit]]
 
-    for source in sources:
-        if source == 'arXiv':
-            attribute = ''
-        if source == 'Wikipedia':
-            attribute = 'description'
-        if source == 'Wikidata':
-            attribute = 'name'
+    for source in source_dicts:
+        attribute = 'name'
         try:
-            results[source] = get_results(source,attribute,limit)
+            results[source] = get_results(source, attribute, limit)
         except:
             results[source] = []
 
     # Convert dict to json
     return jsonify(results)
 
+
 @app.route('/api/v1/formula_names', methods=['GET'])
 def get_formula_names():
 
+    if 'formula' in request.args:
+        # Check if an identifier was provided as part of the URL.
+        formula = request.args['formula']
+    else:
+        return 'Error: No identifier attribute provided. Please specify an identifier.'
+
+    # splitting the formula at '='
+    try:
+        formula_identifier_explained = formula.split('=', 1)[0]
+        formula_identifier_explaining = formula.split('=', 1)[1]
+    except:
+        return 'Error: No formula provided'
+
+    annomathtex_item = {
+        'action': {'getRecommendations': ''},
+        'searchString': {formula_identifier_explained: formula_identifier_explaining},
+        'tokenType': {'Formula': ''},
+        'uniqueId': {'0---0': ''},
+        'mathEnv': {'dummy': formula},
+        'annotations': 'none'
+    }
+
+    response, source_dicts = TokenClickedHandler(annomathtex_item).get_recommendations()
+
+    # Get formula name recommendations for input formula string
+    results = {}
+
+    # Limit to specific number (of identifier name recommendations)
+    try:
+        limit = int(request.args['limit'])
+    except:
+        limit=5
+
+    def get_results(source, attribute, limit):
+        if attribute == '':
+            return source_dicts[source][formula][:limit]
+        else:
+            return [recommendation[attribute]
+                    for recommendation in source_dicts[source][:limit]]
+
+    for source in source_dicts:
+        attribute = 'name'
+        try:
+            results[source] = get_results(source, attribute, limit)
+        except:
+            results[source] = []
+
     # Convert dict to json
-    return jsonify({})
+    return jsonify(results)
+
 
 app.run()

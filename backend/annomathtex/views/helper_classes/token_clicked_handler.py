@@ -14,6 +14,7 @@ from ...config import *
 logging.basicConfig(level=logging.INFO)
 token_clicked_handler_logger = logging.getLogger(__name__)
 
+
 class TokenClickedHandler:
     """
     This class handles the use case, when the user selects a token (word, identifier or formula) to annotate.
@@ -43,19 +44,31 @@ class TokenClickedHandler:
     def __init__(self, items):
         self.items = items
 
-
     def get_recommendations(self):
 
+        search_string = [k for k in self.items['searchString']][0]
+        token_type_dict = self.items['tokenType']
+        token_type = [k for k in token_type_dict][0]
+        unique_id = [k for k in self.items['uniqueId']][0]
+        math_env = self.items['mathEnv']['dummy']
+        annotations = self.items['annotations']
 
-
-        recommendations_dict = {'arXivEvaluationItems': [],
-                        'wikipediaEvaluationItems': [],
-                        'wikidata1Results': [],
-                        'wikidata2Results': [],
-                        'wordWindow': [],
-                        'formulaConceptDB': [],
-                        'manual': []}
-
+        if token_type == 'Identifier':
+            recommendations_dict = {'arXivEvaluationItems': [],
+                                    'wikipediaEvaluationItems': [],
+                                    'wikidata1Results': [],
+                                    # 'wikidata2Results': [],
+                                    # 'wordWindow': [],
+                                    # 'formulaConceptDB': [],
+                                    'manual': []}
+        elif token_type == 'Formula':
+            recommendations_dict = {  # 'arXivEvaluationItems': [],
+                                    # 'wikipediaEvaluationItems': [],
+                                    'wikidata1Results': [],
+                                    'wikidata2Results': [],
+                                    # 'wordWindow': [],
+                                    'formulaConceptDB': [],
+                                    'manual': []}
 
         search_string = [k for k in self.items['searchString']][0]
         token_type_dict = self.items['tokenType']
@@ -70,25 +83,23 @@ class TokenClickedHandler:
 
         if token_type == 'Identifier':
             recommendations_dict['arXivEvaluationItems'] = ArXivEvaluationListHandler().check_identifiers(search_string)
-            recommendations_dict['wikipediaEvaluationItems'] = WikipediaEvaluationListHandler().check_identifiers(search_string)
+            recommendations_dict['wikipediaEvaluationItems'] = WikipediaEvaluationListHandler().check_identifiers(
+                search_string)
             recommendations_dict['wikidata1Results'] = StaticWikidataHandler().check_identifiers(search_string)
 
         elif token_type == 'Formula':
-            recommendations_dict['wikidata1Results'], recommendations_dict['wikidata2Results'] = StaticWikidataHandler().check_formulae(math_env, annotations)
+            recommendations_dict['wikidata1Results'], recommendations_dict[
+                'wikidata2Results'] = StaticWikidataHandler().check_formulae(math_env, annotations)
             recommendations_dict['formulaConceptDB'] = FormulaConceptDBHandler().query_tex_string(math_env)
-            #token_clicked_handler_logger.info(recommendations_dict['formulaConceptDB'])
+            # token_clicked_handler_logger.info(recommendations_dict['formulaConceptDB'])
 
         else:
             token_clicked_handler_logger.info('Faulty token_type: {}'.format(token_type))
 
-
-
-
-
-        recommendations_dict['wordWindow'] = self.get_word_window(unique_id)
+        # recommendations_dict['wordWindow'] = self.get_word_window(unique_id)
 
         recommendations_dict['manual'] = ManualRecommendationsHandler(
-                                                all_manual_recommendations).check_identifier_or_formula(search_string)
+            all_manual_recommendations).check_identifier_or_formula(search_string)
 
         data_repo_handler = DataRepoHandler()
         all_wikidata_identifiers = data_repo_handler.get_wikidata_identifiers_by_name()
@@ -98,13 +109,13 @@ class TokenClickedHandler:
         token_clicked_handler_logger.info(type(all_math_items))
         token_clicked_handler_logger.info(all_math_items["metabiaugmented hexagonal prism"])
 
-
         def pp(dict_list, source):
             """
             post process: add QID and fill to recommendations limit
             :param dict_list: ditionary list of recommendations from one source
             :return:
             """
+
             def add_qid_identifier(r):
                 """
                 :param r: single recommendation
@@ -115,7 +126,7 @@ class TokenClickedHandler:
                     r['qid'] = all_wikidata_identifiers[name]['qid']
                 else:
                     r['qid'] = 'N/A'
-                #token_clicked_handler_logger.info(r)
+                # token_clicked_handler_logger.info(r)
                 return r
 
             def add_qid_formula(r):
@@ -132,8 +143,6 @@ class TokenClickedHandler:
 
             def add_qid_all_math(r):
 
-
-
                 if source not in ['wikidata1Results', 'wikidata2Results']:
 
                     name = r['name']
@@ -144,9 +153,7 @@ class TokenClickedHandler:
                 r['name'] = r['name'].replace("\'", '__APOSTROPH__')
                 return r
 
-
             dict_list = list(map(add_qid_all_math, dict_list))
-
 
             dict_list += [{'name': ''} for _ in range(recommendations_limit - len(dict_list))]
             return dict_list
@@ -166,7 +173,7 @@ class TokenClickedHandler:
 
         word_window = []
         limit = int(recommendations_limit / 2)
-        #dicts = self.cache_to_dicts()
+        # dicts = self.cache_to_dicts()
         dicts = CacheHandler().cache_to_dicts()
         identifier_line_dict = dicts['identifiers']
         line_dict = dicts['lines']
@@ -188,7 +195,7 @@ class TokenClickedHandler:
                     if not list(filter(lambda d: d['name'] == word.content.lower(), word_window)):
                         word_window.append({
                             'name': word.content.lower(),
-                            #'unique_id': word.unique_id
+                            # 'unique_id': word.unique_id
                         })
                         i += 1
             if a in line_dict:
@@ -197,11 +204,9 @@ class TokenClickedHandler:
                     if not list(filter(lambda d: d['name'] in word.content.lower(), word_window)):
                         word_window.append({
                             'name': word.content.lower(),
-                            #'unique_id': word.unique_id
+                            # 'unique_id': word.unique_id
                         })
             i += 1
         if not word_window:
             word_window = [{}]
         return word_window[:recommendations_limit]
-
-
