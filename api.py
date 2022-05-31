@@ -1,8 +1,6 @@
 import os
-
 import flask
 from flask import request, jsonify
-
 from backend.annomathtex.views.helper_classes.token_clicked_handler import TokenClickedHandler
 
 import json
@@ -49,18 +47,25 @@ def get_identifier_names():
         limit=5
 
     def get_results(source, attribute, limit):
-        if attribute == '':
-            return source_dicts[source][identifier][:limit]
-        else:
-            return [recommendation[attribute]
-                    for recommendation in source_dicts[source][:limit]]
+        results_prepared = []
+        for recommendation in source_dicts[source][:limit]:
+            try:
+                results_prepared.append(recommendation[attribute])
+            except KeyError as e:
+                if e.args[0] == 'qid':
+                    results_prepared.append('')
+                else:
+                    return 'KeyError in get_results'
+        return results_prepared
 
     for source in source_dicts:
-        attribute = 'name'
+        name_attribute = 'name'
+        qid_attribute = 'qid'
         try:
-            results[source] = get_results(source, attribute, limit)
+            results[source] = {'name': get_results(source, name_attribute, limit), 'qid': get_results(source, qid_attribute, limit)}
         except:
-            results[source] = []
+            return 'Error in results conversion'
+            # results[source] = []
 
     # Convert dict to json
     return jsonify(results)
@@ -103,21 +108,29 @@ def get_formula_names():
         limit=5
 
     def get_results(source, attribute, limit):
-        if attribute == '':
-            return source_dicts[source][formula][:limit]
-        else:
-            return [recommendation[attribute]
-                    for recommendation in source_dicts[source][:limit]]
+        results_prepared = []
+        for recommendation in source_dicts[source][:limit]:
+            try:
+                results_prepared.append(recommendation[attribute])
+            except KeyError as e:
+                if e.args[0] == 'qid':
+                    results_prepared.append('')
+                else:
+                    return 'KeyError in get_results'
+        return results_prepared
 
     for source in source_dicts:
-        attribute = 'name'
+        name_attribute = 'name'
+        qid_attribute = 'qid'
         try:
-            results[source] = get_results(source, attribute, limit)
+            results[source] = {'name': get_results(source, name_attribute, limit), 'qid': get_results(source, qid_attribute, limit)}
         except:
-            results[source] = []
+            return 'Error in results conversion'
+            # results[source] = []
 
     # Convert dict to json
     return jsonify(results)
 
+#todo: consolidate common parts of identifier and formula_name retrieval into one helper function if possible/useful
 
 app.run()
