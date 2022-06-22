@@ -1,12 +1,15 @@
 import json
 import logging
-from django.http import HttpResponse
+import time
+from re import search
 
+from django.http import HttpResponse
 from ...recommendation.arxiv_evaluation_handler import ArXivEvaluationListHandler
 from ...recommendation.wikipedia_evaluation_handler import WikipediaEvaluationListHandler
 from ...recommendation.static_wikidata_handler import StaticWikidataHandler
 from ...recommendation.manual_recommendations_handler import ManualRecommendationsHandler
 from ...recommendation.formula_concept_db_handler import FormulaConceptDBHandler
+from ...recommendation.math_sparql import MathSparql
 from ...views.helper_classes.data_repo_handler import DataRepoHandler
 from ...views.helper_classes.cache_handler import CacheHandler
 from ...config import *
@@ -56,6 +59,7 @@ class TokenClickedHandler:
         if token_type == 'Identifier':
             recommendations_dict = {'arXivEvaluationItems': [],
                                     'wikipediaEvaluationItems': [],
+                                    'wikidataSparqlResults' : [],
                                     'wikidata1Results': [],
                                     # 'wikidata2Results': [],
                                     # 'wordWindow': [],
@@ -87,10 +91,18 @@ class TokenClickedHandler:
                 search_string)
             recommendations_dict['wikidata1Results'] = StaticWikidataHandler().check_identifiers(search_string)
 
+            sparql_qry_start = time.time()
+            recommendations_dict['wikidataSparqlResults'] = MathSparql().identifier_search(search_string)
+            sparql_qry_end = time.time()
+            sparql_qry_dt = sparql_qry_end - sparql_qry_start
+            token_clicked_handler_logger.info('SPARQL-Query execution time: {:2f} s'.format(sparql_qry_dt))
+
         elif token_type == 'Formula':
             recommendations_dict['wikidata1Results'], recommendations_dict[
                 'wikidata2Results'] = StaticWikidataHandler().check_formulae(math_env, annotations)
             recommendations_dict['formulaConceptDB'] = FormulaConceptDBHandler().query_tex_string(math_env)
+
+            #recommendations_dict['wikidataSparqlResults'] = MathSparql().all_formulae_search()
             # token_clicked_handler_logger.info(recommendations_dict['formulaConceptDB'])
 
         else:
