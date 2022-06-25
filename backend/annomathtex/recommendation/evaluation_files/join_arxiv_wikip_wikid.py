@@ -71,7 +71,7 @@ def pp(dict_list, source):
             if source in ['wikipediaEvaluationItems']:
                 r['name'] = r.pop('description')
                 r.pop('identifier')
-
+                r.pop('wikimedia_link')
 
             name = r['name']
 
@@ -79,12 +79,33 @@ def pp(dict_list, source):
                 r['qid'] = all_math_items[name]
             else:
                 r['qid'] = 'N/A'
+        else:
+            r.pop('link')
         r['name'] = r['name'].replace("\'", '__APOSTROPH__')
         return r
 
     for identifier in dict_list[0]:
         # dict_list_identifier = list(map(add_qid_all_math, dict_list[0]))
         dict_list_identifier = list(map(lambda d: add_qid_all_math(d, in_source = source), dict_list[0][identifier]))
+
+
+def recommendations_dict_change_order(rd):
+
+    rdf = {}
+
+    for source in rd:
+        for identifier in rd[source][0]:
+
+            if rd[source][0][identifier]:
+
+                try:
+                    rdf[identifier]
+                except KeyError:
+                    rdf[identifier] = []
+
+                rdf[identifier].append({source: recommendations_dict[source][0][identifier]})
+
+    return rdf
 
 
 if __name__ == "__main__":
@@ -104,8 +125,10 @@ if __name__ == "__main__":
 
     recommendations_dict_pp_loc = dict(map(lambda kv: (kv[0], pp(kv[1], kv[0])), recommendations_dict.items()))
 
-    with open('arxiv_wikipedia_wikidata_identifier.json', 'w', encoding='utf-8') as f:
-        json.dump(recommendations_dict, f, ensure_ascii=False, indent=4)
+    recommendations_dict_formatted = recommendations_dict_change_order(recommendations_dict)
+
+    with open('identifier_index.json', 'w', encoding='utf-8') as f:
+        json.dump(recommendations_dict_formatted, f, ensure_ascii=False, indent=4)
 
 
 
