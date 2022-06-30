@@ -62,18 +62,24 @@ def create_index():
 
         result_nr += 1
 
-    # save index
-    #with open('formula_index.json', 'w') as f:
+    # # save formula index
+    # with open('formula_index.json', 'w') as f:
     #    json.dump(formula_index, f)
+    # # save qid index
+    # with open('qid_index.json', 'w') as f:
+    #    json.dump(qid_index, f)
 
     return formula_index, qid_index
 
 
 def employ_index(formula_index, qid_index, formula_input_string, result_limit):
 
-    # load index
+    # # load formula index
     # with open('formula_index.json','r') as f:
     #    formula_index = json.load(f)
+    # # load qid index
+    # with open('qid_index.json','r') as f:
+    #    qid_index = json.load(f)
 
     match_candidates = {}
 
