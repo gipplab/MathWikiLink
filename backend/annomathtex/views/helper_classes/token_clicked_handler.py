@@ -155,7 +155,7 @@ class TokenClickedHandler:
 
             def add_qid_all_math(r):
 
-                if source not in ['wikidata1Results', 'wikidata2Results']:
+                if source not in ['wikidata1Results', 'wikidata2Results', 'wikidataSparqlResults']:
 
                     name = r['name']
                     if name in all_math_items:

@@ -1,3 +1,4 @@
+import os
 import re
 import json
 import rapidfuzz
@@ -24,13 +25,13 @@ def get_sparql_results(sparql_query_string):
 
 # MAIN FUNCTIONS
 
-def create_index():
+def create_index(save=False):
 
     formula_index = {}
     qid_index = {}
 
     sparql_query_string = """# find all items with defining formula
-    SELECT ?formula ?item WHERE {
+    SELECT ?formula ?item ?itemLabel WHERE {
         ?item wdt:P2534 ?formula.
         SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
         }"""
@@ -50,8 +51,9 @@ def create_index():
             print(formula_tex_string)
             # populate index with formula and qid
             formula_qid = result['item']['value'].split('/')[-1]
-            formula_index[formula_tex_string] = formula_qid
-            qid_index[formula_qid] = formula_tex_string
+            formula_name = result['itemLabel']['value']
+            formula_index[formula_tex_string] = {'name': formula_name, 'qid': formula_qid}
+            qid_index[formula_qid] = {'name': formula_name, 'texString': formula_tex_string}
             nr_successful += 1
         except:
             print('failed')
@@ -62,51 +64,48 @@ def create_index():
 
         result_nr += 1
 
-    # # save formula index
-    # with open('formula_index.json', 'w') as f:
-    #    json.dump(formula_index, f)
-    # # save qid index
-    # with open('qid_index.json', 'w') as f:
-    #    json.dump(qid_index, f)
+    if save == True:
+        # save formula index
+        path = os.path.join('/dataset/')
+        with open(path + 'formula_string_index.json', 'w') as f:
+            json.dump(formula_index, f)
+        # save qid index
+        with open(path + 'formula_qid_index.json', 'w') as f:
+            json.dump(qid_index, f)
 
     return formula_index, qid_index
 
 
-def employ_index(formula_index, qid_index, formula_input_string, result_limit):
-
-    # # load formula index
-    # with open('formula_index.json','r') as f:
-    #    formula_index = json.load(f)
-    # # load qid index
-    # with open('qid_index.json','r') as f:
-    #    qid_index = json.load(f)
+def employ_index(formula_input_string, result_limit, formula_index, qid_index):
 
     match_candidates = {}
 
     for formula_index_string in formula_index:
-        formula_qid = formula_index[formula_index_string]
-        fuzz_ratio = rapidfuzz.fuzz.ratio(formula_index_string,formula_input_string)
+        formula_qid = formula_index[formula_index_string]['qid']
+        fuzz_ratio = rapidfuzz.fuzz.ratio(formula_index_string, formula_input_string)
         match_candidates[formula_qid] = fuzz_ratio
 
     match_candidates_sorted = sorted(match_candidates.items(), key=lambda kv: kv[1], reverse=True)
     results = match_candidates_sorted[:result_limit]
 
+    results_jsonline = {'wikidata1Results': []}
     for result in results:
         qid = result[0]
-        formula = qid_index[qid]
+        formula_string = qid_index[qid]['texString']
+        formula_name = qid_index[qid]['name']
         score = result[1]
-        result_jsonline = {'qid': qid, 'formula': formula, 'score': score}
-        print(result_jsonline)
+        results_jsonline['wikidata1Results'].append({'name': formula_name, 'qid': qid, 'formula': formula_string, 'score': score})
+        #print(result_jsonline)
 
-    return results
+    return results_jsonline
 
 # EXECUTE
 
-print('\nCREATE INDEX\n')
-formula_index,qid_index = create_index()
-print('\nEMPLOY INDEX\n')
-formula_input_string = 'E=mc^2'
-result_limit = 10
-formula_qid = employ_index(formula_index,qid_index,
-                           formula_input_string,
-                           result_limit)
+if __name__ == "__main__":
+
+    print('\nCREATE INDEX\n')
+    formula_index,qid_index = create_index()
+    print('\nEMPLOY INDEX\n')
+    formula_input_string = 'E=mc^2'
+    result_limit = 10
+    formula_qid = employ_index(formula_index, qid_index, formula_input_string, result_limit)
