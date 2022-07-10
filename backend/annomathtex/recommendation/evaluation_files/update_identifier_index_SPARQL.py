@@ -9,6 +9,18 @@ from backend.annomathtex.recommendation.sparql_queries import *
 logging.basicConfig(level=logging.INFO)
 update_identifier_logger = logging.getLogger(__name__)
 
+"""
+SPARQL-Properties 
+    P527    -   has part or parts
+    P4934   -   calculated from
+    P7235   -   in defining formula
+    P416    -   quantity symbol
+    P7973   -   quantity symbol (LaTex)
+    P2534   -   defining formula   
+               
+    Example for Usage on: https://github.com/gipplab/PhysWikiQuiz/blob/main/module1_formula_and_identifier_retrieval.py
+"""
+
 
 class IdentifierSPARQLUpdater:
     """
@@ -18,13 +30,22 @@ class IdentifierSPARQLUpdater:
 
     def __init__(self, local_file='identifier_index.json'):
 
-        self.identifier_query = identifier_query    # Use the SPARQL-Query already supplied by AnnoMathTex
+        self.identifier_query = identifier_query  # Use the SPARQL-Query already supplied by AnnoMathTex
+
+        # Use different SPARQL-Query with P7973 (quantity symbol (LaTex) for more results than P416 (quantity symbol)
+        self.identifier_query_latex = """
+    SELECT DISTINCT ?item ?itemLabel ?itemDescription WHERE {{
+        ?item wdt:P7973 ?def.
+        FILTER(CONTAINS(?def, '{}'@en))
+        SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en" .}}
+    }}    
+    LIMIT {}
+    """
         self.wikidata_online_dict = {}
         self.local_dict = {}
         self.n_updated_total = 0
         self.filename = local_file  # Default-Filename
-        self.TIME_BEETWEEN_QUERY = 2;
-
+        self.TIME_BETWEEN_QUERY = 2
 
         # Open JSON-File
         path = os.path.join(self.filename)
@@ -33,39 +54,34 @@ class IdentifierSPARQLUpdater:
 
         for identifier in self.local_dict:
 
-            # Workaround: Only use identifiers of length one. (SPARQL-queries are problematic, especially containing LaTeX-content.
-            # Possible solution: Use regex to ensure correct format of identifier or switch between queries
-            # update_identifier_logger.info('Handling identifier: {}'.format(identifier))
+            # Limit the length of identifier in search query to "1" to avoid syntax errors through LaTeX-Content from
+            # index file.
             if len(identifier) == 1:
                 # Add result to temporary dict
                 self.wikidata_online_dict[identifier] = self.query(identifier)
 
                 # Avoid firing too many requests in a short period of time (HTTP 429)
-                time.sleep(self.TIME_BEETWEEN_QUERY)
+                time.sleep(self.TIME_BETWEEN_QUERY)
 
                 # Query done, compare with (local) file content and integrate new data into local dict
                 self.compare(identifier)
 
         update_identifier_logger.info('Updated a TOTAL of {} QID to index.'.format(self.n_updated_total))
 
-    def dump(self):
+    def dump(self, filename='identifier_index_update.json'):
+
         """
         Method to write out the JSON-Output-File.
-        TODO: Use variable for filename
         """
-        with open('identifier_index_new.json', 'w') as f:
+        with open(filename, 'w') as f:
             json.dump(self.local_dict, f, ensure_ascii=False, indent=4)
             update_identifier_logger.info('Wrote to file. END.')
 
-
-    def query(self, identifier):
+    def query(self, identifier=identifier_query):
         """
         Helper-Function for SPARQL-Query. Not sure if necessary.
         """
-        try:
-            identifier_result = MathSparql().query(self.identifier_query, identifier)
-        except Error as e:
-            update_identifier_logger.error()
+        identifier_result = MathSparql().query(self.identifier_query, identifier)
 
         return identifier_result
 
@@ -81,7 +97,7 @@ class IdentifierSPARQLUpdater:
             for dict_item in self.local_dict[identifier]:
 
                 # Use only Wikidata-Results
-                if dict_item.get('wikidata1Results') != None:
+                if dict_item.get('wikidata1Results') is not None:
                     # Wikidata-Results exist
                     # print(self.wikidata_online_dict[identifier])
 
@@ -118,7 +134,10 @@ class IdentifierSPARQLUpdater:
 
                     # Use only the new QIDs
                     diff = set(online_elements.keys()) - set(local_elements.keys())
-                    print('UPDATE : {}'.format(diff))
+                    if len(diff) > 0:
+                        print('UPDATE : {}'.format(diff))
+                    else:
+                        print('UPDATE: no new elements.')
 
                     # Count the number of updated items
                     n_updated_identifiers = n_updated_identifiers + len(diff)
@@ -135,9 +154,10 @@ class IdentifierSPARQLUpdater:
 
 if __name__ == "__main__":
 
+    default_filename = 'identifier_index.json'
+
     # Start up.
-    updater_obj = IdentifierSPARQLUpdater('identifier_index.json')
+    updater_obj = IdentifierSPARQLUpdater(default_filename)
 
     # Write file.
     updater_obj.dump()
-
