@@ -154,7 +154,7 @@ class IdentifierSPARQLUpdater:
 
 if __name__ == "__main__":
 
-    default_filename = 'identifier_index.json'
+    default_filename = '../annomathtex/recommendation/evaluation_files/identifier_index.json'
 
     # Start up.
     updater_obj = IdentifierSPARQLUpdater(default_filename)
