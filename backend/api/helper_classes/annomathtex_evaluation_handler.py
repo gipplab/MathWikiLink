@@ -35,20 +35,7 @@ class AnnoMathTexEvaluationHandler:
 
         self.response, self.source_dicts = TokenClickedHandler(self.annomathtex_item).get_recommendations()
 
-    def get_results(self, attribute, limit):
-        results_prepared = []
-        for recommendation in self.source_dicts[self.source][:limit]:
-            try:
-                results_prepared.append(recommendation[attribute])
-            except KeyError as e:
-                if e.args[0] == 'qid':
-                    results_prepared.append('')
-                else:
-                    return 'KeyError in get_results'
-        return results_prepared
-
     def annomathtex_retrieval(self, limit):
-
         results = {}
 
         for self.source in self.source_dicts:
