@@ -20,7 +20,6 @@ class ArXivReader:
         Read the file containing the extacted arXiv identifiers.
         :return: The read file as a string, with some unnecessary characters removed.
         """
-        #path = os.path.join(os.getcwd(), 'annomathtex', 'recommendation', 'evaluation_files', 'Evaluation_list_all.rtf')
         path = os.path.join('../annomathtex/recommendation/evaluation_files/Evaluation_list_all.rtf')
         with open(path, 'r') as f:
             file = f.read()
@@ -127,7 +126,8 @@ if __name__ == "__main__":
 
     recommendations_dict_formatted = recommendations_dict_change_order(recommendations_dict)
 
-    with open('../annomathtex/recommendation/evaluation_files/identifier_index.json', 'w', encoding='utf-8') as f:
+    path = os.path.join('../../dataset/identifier_index.json')
+    with open(path, 'w', encoding='utf-8') as f:
         json.dump(recommendations_dict_formatted, f, ensure_ascii=False, indent=4)
 
 

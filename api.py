@@ -1,14 +1,18 @@
 import os
 import flask
 from flask import request, jsonify
-from backend.annomathtex.views.helper_classes.token_clicked_handler import TokenClickedHandler
+
+from backend.annomathtex.settings.common import PROJECT_ROOT
+from backend.api.helper_classes.annomathtex_evaluation_handler import AnnoMathTexEvaluationHandler
+from backend.api.helper_classes.index_evaluation_handler import IndexEvaluationHandler
 
 import json
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.annomathtex.settings.development")
 
 app = flask.Flask(__name__)
-app.config['DEBUG'] = True
+# app.config['DEBUG'] = True
+app.config['DEBUG'] = False
 
 
 @app.route('/', methods=['GET'])
@@ -20,117 +24,78 @@ def home():
 @app.route('/api/v1/identifier_names', methods=['GET'])
 def get_identifier_names():
 
+    # Limit to specific number (of identifier name recommendations)
+    try:
+        limit = int(request.args['limit'])
+    except:
+        limit=5
+
+    if 'source' in request.args:
+        # check if source is provided as part of the URL
+        if request.args['source'] == 'annomathtex':
+            source = 'annomathtex'
+        elif request.args['source'] == 'index':
+            source = 'index'
+        else:
+            return 'Error: Retrieval source ' + request.args['source'] + ' is unknown.'
+    else:
+        source = 'index'
+
     if 'identifier' in request.args:
         # Check if an identifier was provided as part of the URL.
         identifier = request.args['identifier']
     else:
         return 'Error: No identifier attribute provided. Please specify an identifier.'
 
-    annomathtex_item = {
-        'action': {'getRecommendations': ''},
-        'searchString': {identifier: ''},
-        'tokenType': {'Identifier': ''},
-        'uniqueId': {'0---0': ''},
-        'mathEnv': {'dummy': 'dummy'},
-        'annotations': 'none'
-    }
+    if source == 'index':
+        results = IndexEvaluationHandler('identifier').check_identifier_index(symbol=identifier, limit=limit)
+        # Convert dict to json
+        return jsonify(results)
 
-    response, source_dicts = TokenClickedHandler(annomathtex_item).get_recommendations()
+    elif source == 'annomathtex':
+        results = AnnoMathTexEvaluationHandler('identifier', identifier).annomathtex_retrieval(limit)
+        # Convert dict to json
+        return jsonify(results)
 
-    # Get identifier name recommendations for input identifier
-    results = {}
-
-    # Limit to specific number (of identifier name recommendations)
-    try:
-        limit = int(request.args['limit'])
-    except:
-        limit=5
-
-    def get_results(source, attribute, limit):
-        results_prepared = []
-        for recommendation in source_dicts[source][:limit]:
-            try:
-                results_prepared.append(recommendation[attribute])
-            except KeyError as e:
-                if e.args[0] == 'qid':
-                    results_prepared.append('')
-                else:
-                    return 'KeyError in get_results'
-        return results_prepared
-
-    for source in source_dicts:
-        name_attribute = 'name'
-        qid_attribute = 'qid'
-        try:
-            results[source] = {'name': get_results(source, name_attribute, limit), 'qid': get_results(source, qid_attribute, limit)}
-        except:
-            return 'Error in results conversion'
-            # results[source] = []
-
-    # Convert dict to json
-    return jsonify(results)
+    return 'Error in get_identifier_names()'
 
 
 @app.route('/api/v1/formula_names', methods=['GET'])
 def get_formula_names():
 
-    if 'formula' in request.args:
-        # Check if an identifier was provided as part of the URL.
-        formula = request.args['formula']
-    else:
-        return 'Error: No identifier attribute provided. Please specify an identifier.'
-
-    # splitting the formula at '='
-    try:
-        formula_identifier_explained = formula.split('=', 1)[0]
-        formula_identifier_explaining = formula.split('=', 1)[1]
-    except:
-        return 'Error: No formula provided'
-
-    annomathtex_item = {
-        'action': {'getRecommendations': ''},
-        'searchString': {formula_identifier_explained: formula_identifier_explaining},
-        'tokenType': {'Formula': ''},
-        'uniqueId': {'0---0': ''},
-        'mathEnv': {'dummy': formula},
-        'annotations': 'none'
-    }
-
-    response, source_dicts = TokenClickedHandler(annomathtex_item).get_recommendations()
-
-    # Get formula name recommendations for input formula string
-    results = {}
-
     # Limit to specific number (of identifier name recommendations)
     try:
         limit = int(request.args['limit'])
     except:
         limit=5
 
-    def get_results(source, attribute, limit):
-        results_prepared = []
-        for recommendation in source_dicts[source][:limit]:
-            try:
-                results_prepared.append(recommendation[attribute])
-            except KeyError as e:
-                if e.args[0] == 'qid':
-                    results_prepared.append('')
-                else:
-                    return 'KeyError in get_results'
-        return results_prepared
+    if 'source' in request.args:
+        # check if source is provided as part of the URL
+        if request.args['source'] == 'annomathtex':
+            source = 'annomathtex'
+        elif request.args['source'] == 'index':
+            source = 'index'
+        else:
+            return 'Error: Retrieval source ' + request.args['source'] + ' is unknown.'
+    else:
+        source = 'index'
 
-    for source in source_dicts:
-        name_attribute = 'name'
-        qid_attribute = 'qid'
-        try:
-            results[source] = {'name': get_results(source, name_attribute, limit), 'qid': get_results(source, qid_attribute, limit)}
-        except:
-            return 'Error in results conversion'
-            # results[source] = []
+    if 'formula' in request.args:
+        # Check if a formula was provided as part of the URL.
+        formula = request.args['formula']
+    else:
+        return 'Error: No formula attribute provided. Please specify a formula.'
 
-    # Convert dict to json
-    return jsonify(results)
+    if source == 'index':
+        results = IndexEvaluationHandler('formula').check_formula_index(formula=formula, limit=limit)
+        # Convert dict to json
+        return jsonify(results)
 
-#todo: consolidate common parts of identifier and formula_name retrieval into one helper function if possible/useful
+    elif source == 'annomathtex':
+        results = AnnoMathTexEvaluationHandler('formula', formula).annomathtex_retrieval(limit)
+        # Convert dict to json
+        return jsonify(results)
+
+    return 'Error in get_formula_names()'
 
 app.run()

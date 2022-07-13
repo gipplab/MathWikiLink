@@ -11,6 +11,8 @@ An Entity Linking System for Mathematical Formulae
 
 # Helper scripts
 
-## join_arxiv_wikip_wikid.py
+## create_identifier_index.py
 
 ## update_identifier_index_SPARQL.py
+
+# Helper classes
