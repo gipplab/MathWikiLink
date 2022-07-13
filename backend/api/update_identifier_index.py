@@ -1,13 +1,13 @@
 import json
 import logging
-import os
 import time
+import os
 
 from backend.annomathtex.recommendation.math_sparql import MathSparql
-from backend.annomathtex.recommendation.sparql_queries import *
+from backend.annomathtex.recommendation.sparql_queries import identifier_query
 
 logging.basicConfig(level=logging.INFO)
-update_identifier_logger = logging.getLogger(__name__)
+update_identifier_logger = logging.getLogger(' - Update identifier-index - ')
 
 """
 SPARQL-Properties 
@@ -48,7 +48,8 @@ class IdentifierSPARQLUpdater:
         self.TIME_BETWEEN_QUERY = 2
 
         # Open JSON-File
-        path = os.path.join(self.filename)
+        path = os.path.join('../../dataset/'+self.filename)
+
         with open(path, 'r', encoding='utf-8') as f:
             self.local_dict = json.load(f)
 
@@ -68,12 +69,13 @@ class IdentifierSPARQLUpdater:
 
         update_identifier_logger.info('Updated a TOTAL of {} QID to index.'.format(self.n_updated_total))
 
-    def dump(self, filename='identifier_index_update.json'):
+    def dump(self, filename='identifier_index.json'):
 
         """
         Method to write out the JSON-Output-File.
         """
-        with open(filename, 'w') as f:
+        path = os.path.join('../../dataset/'+filename)
+        with open(path, 'w') as f:
             json.dump(self.local_dict, f, ensure_ascii=False, indent=4)
             update_identifier_logger.info('Wrote to file. END.')
 
@@ -146,18 +148,24 @@ class IdentifierSPARQLUpdater:
                     for new_qid in diff:
                         dict_item['wikidata1Results'].append(online_elements[new_qid])
 
-                    update_identifier_logger.info(
-                        'Update: ADDED {} QIDs ({}) to identifier {} from Wikidata'.format(n_updated_identifiers, diff,
+                    if n_updated_identifiers > 0:
+                        update_identifier_logger.info(
+                        'Update: Adding {} new QIDs ({}) for identifier \'{}\' from Wikidata'.format(n_updated_identifiers, diff,
                                                                                            identifier))
+                    else:
+                        update_identifier_logger.info('No new results for identifier \'{}\'.'.format(identifier))
+
                     self.n_updated_total = self.n_updated_total + n_updated_identifiers
+        else:
+            update_identifier_logger.info('No results for identifier \'{}\', skipped.'.format(identifier))
 
 
 if __name__ == "__main__":
 
-    default_filename = '../annomathtex/recommendation/evaluation_files/identifier_index.json'
+    default_filename = 'identifier_index.json'
 
     # Start up.
     updater_obj = IdentifierSPARQLUpdater(default_filename)
 
     # Write file.
-    updater_obj.dump()
+    updater_obj.dump(default_filename)
