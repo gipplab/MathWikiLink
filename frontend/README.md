@@ -44,6 +44,11 @@ When going to the options tab, the script will automatically show up to three su
 
 Suggestions are presented with their name and correlating wikidata QID. Copy the appropriate QID or wikidata item name into the QID text field to correctly annotate the identifier or formula concept.
 
+## Known Bugs | Open ToDos
+
+Currently, the script produces suggestions when opening up the formula editor. When changing the Formula/Identifier, users have to close the editor and reopen it to get the new suggestions. Since this is quite tedious, we are looking for ways to embed the JS Hook in another place, preferably when the Input changes or the user switches to the Options tab inside the editor.
+
+
 ## Authors
 
 * Fabian Wolz
