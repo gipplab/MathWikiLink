@@ -489,6 +489,16 @@
                     "qid": "Q11376",
                     "name": "acceleration",
                     "item_description": "rate at which the velocity of a body changes with time, and the direction in which that change is acting"
+                },
+                {
+                    "qid": "Q1733876",
+                    "name": "Karlovitz number",
+                    "item_description": "dimensionless number used in chemical engineering"
+                },
+                {
+                    "qid": "Q106966702",
+                    "name": "Wikipedia pageview",
+                    "item_description": "unit of measurement"
                 }
             ]
         }
@@ -1066,6 +1076,11 @@
                     "qid": "Q3589038",
                     "name": "thickness",
                     "item_description": "extent from one surface to the opposite, usually in the smallest solid dimension"
+                },
+                {
+                    "qid": "Q28458688",
+                    "name": "penny size",
+                    "item_description": "length of a nail"
                 }
             ]
         }
@@ -1225,6 +1240,21 @@
                     "qid": "Q2101",
                     "name": "elementary charge",
                     "item_description": "the electric charge carried by a single proton or a single electron"
+                },
+                {
+                    "qid": "Q91447257",
+                    "name": "essential infimum",
+                    "item_description": null
+                },
+                {
+                    "qid": "Q1969054",
+                    "name": "essential supremum",
+                    "item_description": "notions of infimum and supremum"
+                },
+                {
+                    "qid": "Q106966702",
+                    "name": "Wikipedia pageview",
+                    "item_description": "unit of measurement"
                 }
             ]
         }
@@ -1494,6 +1524,11 @@
                     "qid": "Q11652",
                     "name": "frequency",
                     "item_description": "number of occurrences per unit time"
+                },
+                {
+                    "qid": "Q91447257",
+                    "name": "essential infimum",
+                    "item_description": null
                 }
             ]
         }
@@ -1643,6 +1678,11 @@
                     "qid": "Q217361",
                     "name": "group velocity",
                     "item_description": "physical quantity"
+                },
+                {
+                    "qid": "Q106966702",
+                    "name": "Wikipedia pageview",
+                    "item_description": "unit of measurement"
                 }
             ]
         }
@@ -2464,6 +2504,11 @@
                     "qid": "Q36253",
                     "name": "length",
                     "item_description": "measured dimension of an object in a physical space"
+                },
+                {
+                    "qid": "Q16318811",
+                    "name": "semi-latus rectum",
+                    "item_description": "half the length of the latus rectum of a conic section"
                 }
             ]
         }
@@ -3052,6 +3097,26 @@
                     "qid": "Q3117934",
                     "name": "special orthogonal group",
                     "item_description": "connected component of O(n) containing the identity"
+                },
+                {
+                    "qid": "Q174102",
+                    "name": "refractive index",
+                    "item_description": "ratio of the speed of light in vacuum to that in the medium"
+                },
+                {
+                    "qid": "Q83545836",
+                    "name": "Q83545836",
+                    "item_description": null
+                },
+                {
+                    "qid": "Q91447257",
+                    "name": "essential infimum",
+                    "item_description": null
+                },
+                {
+                    "qid": "Q1757819",
+                    "name": "Charge carrier density",
+                    "item_description": "charge carriers per volume; such as electrons, ions, \"holes\" or others"
                 }
             ]
         }
@@ -3396,6 +3461,26 @@
                     "qid": "Q39552",
                     "name": "pressure",
                     "item_description": "ratio of force applied over an area"
+                },
+                {
+                    "qid": "Q81809",
+                    "name": "atmospheric pressure",
+                    "item_description": "pressure"
+                },
+                {
+                    "qid": "Q78150959",
+                    "name": "focal parameter",
+                    "item_description": "distance between the focus and the directrix of a conic section."
+                },
+                {
+                    "qid": "Q1969054",
+                    "name": "essential supremum",
+                    "item_description": "notions of infimum and supremum"
+                },
+                {
+                    "qid": "Q106966702",
+                    "name": "Wikipedia pageview",
+                    "item_description": "unit of measurement"
                 }
             ]
         }
@@ -3973,6 +4058,26 @@
                     "qid": "Q1540011",
                     "name": "specific storage",
                     "item_description": "the amount of water that a portion of an aquifer releases from storage, per unit mass or volume of aquifer, per unit change in hydraulic head"
+                },
+                {
+                    "qid": "Q1493543",
+                    "name": "Q1493543",
+                    "item_description": null
+                },
+                {
+                    "qid": "Q91447257",
+                    "name": "essential infimum",
+                    "item_description": null
+                },
+                {
+                    "qid": "Q1969054",
+                    "name": "essential supremum",
+                    "item_description": "notions of infimum and supremum"
+                },
+                {
+                    "qid": "Q106966702",
+                    "name": "Wikipedia pageview",
+                    "item_description": "unit of measurement"
                 }
             ]
         }
@@ -4356,6 +4461,11 @@
                     "qid": "Q11465",
                     "name": "velocity",
                     "item_description": "rate of change of the position of an object as a function of time, and the direction of that change"
+                },
+                {
+                    "qid": "Q1969054",
+                    "name": "essential supremum",
+                    "item_description": "notions of infimum and supremum"
                 }
             ]
         }
@@ -4535,6 +4645,11 @@
                     "qid": "Q11465",
                     "name": "velocity",
                     "item_description": "rate of change of the position of an object as a function of time, and the direction of that change"
+                },
+                {
+                    "qid": "Q106966702",
+                    "name": "Wikipedia pageview",
+                    "item_description": "unit of measurement"
                 }
             ]
         }
@@ -4659,6 +4774,11 @@
                     "qid": "Q11465",
                     "name": "velocity",
                     "item_description": "rate of change of the position of an object as a function of time, and the direction of that change"
+                },
+                {
+                    "qid": "Q106966702",
+                    "name": "Wikipedia pageview",
+                    "item_description": "unit of measurement"
                 }
             ]
         }
@@ -5221,6 +5341,11 @@
                     "qid": "Q76250",
                     "name": "red shift",
                     "item_description": "increase in wavelength (decrease in frequency) of an electromagnetic radiation"
+                },
+                {
+                    "qid": "Q1290753",
+                    "name": "Spence's function",
+                    "item_description": "special function"
                 }
             ]
         }
@@ -5535,6 +5660,16 @@
                     "qid": "Q28913027",
                     "name": "conventional atomic weight",
                     "item_description": "from standard atiomic weight range, reduced to a single value"
+                },
+                {
+                    "qid": "Q7688027",
+                    "name": "Tate–Shafarevich group",
+                    "item_description": null
+                },
+                {
+                    "qid": "Q104054373",
+                    "name": "Academic Freedom Index",
+                    "item_description": "index number (scaled  0–1), and near-global dataset on  several  dimensions  of  academic  freedom in different countries, published by Global Public Policy Institute since 2020 (index structure described in 2017)"
                 }
             ]
         }
@@ -5759,6 +5894,11 @@
                     "qid": "Q35059",
                     "name": "width",
                     "item_description": "horizontal dimension of an entity"
+                },
+                {
+                    "qid": "Q1158816",
+                    "name": "minimum bactericidal concentration",
+                    "item_description": "lowest concentration of an antibacterial agent required to kill a particular bacterium"
                 }
             ]
         }
@@ -5983,6 +6123,36 @@
                     "qid": "P2712",
                     "name": "median lethal concentration",
                     "item_description": "statistically derived median concentration of a substance in an environmental medium expected to kill 50% of organisms in a given population under a defined set of conditions"
+                },
+                {
+                    "qid": "Q77569705",
+                    "name": "minimum explosive concentration",
+                    "item_description": null
+                },
+                {
+                    "qid": "Q286779",
+                    "name": "half maximal inhibitory concentration",
+                    "item_description": "half-maximal inhibitory concentration"
+                },
+                {
+                    "qid": "Q77564939",
+                    "name": "median lethal concentration",
+                    "item_description": null
+                },
+                {
+                    "qid": "Q1158816",
+                    "name": "minimum bactericidal concentration",
+                    "item_description": "lowest concentration of an antibacterial agent required to kill a particular bacterium"
+                },
+                {
+                    "qid": "Q286136",
+                    "name": "half maximal effective concentration",
+                    "item_description": "EC50"
+                },
+                {
+                    "qid": "Q597889",
+                    "name": "minimum inhibitory concentration",
+                    "item_description": "parameter in microbiology"
                 }
             ]
         }
@@ -6147,6 +6317,11 @@
                     "qid": "Q37221",
                     "name": "diameter",
                     "item_description": "straight line segment that passes through the center of a circle"
+                },
+                {
+                    "qid": "Q711849",
+                    "name": "median lethal dose",
+                    "item_description": "a measure of the lethal dose of a toxin, radiation, or pathogen required to kill half of a tested population"
                 }
             ]
         }
@@ -6336,6 +6511,16 @@
                     "qid": "Q11379",
                     "name": "energy",
                     "item_description": "quantitative physical property transferred to objects to perform heating or work on them"
+                },
+                {
+                    "qid": "Q77569705",
+                    "name": "minimum explosive concentration",
+                    "item_description": null
+                },
+                {
+                    "qid": "Q286136",
+                    "name": "half maximal effective concentration",
+                    "item_description": "EC50"
                 }
             ]
         }
@@ -6530,6 +6715,11 @@
                     "qid": "Q11402",
                     "name": "force",
                     "item_description": "influence that causes an object to change motion"
+                },
+                {
+                    "qid": "Q104054373",
+                    "name": "Academic Freedom Index",
+                    "item_description": "index number (scaled  0–1), and near-global dataset on  several  dimensions  of  academic  freedom in different countries, published by Global Public Policy Institute since 2020 (index structure described in 2017)"
                 }
             ]
         }
@@ -7077,6 +7267,16 @@
                     "qid": "Q104831",
                     "name": "luminous intensity",
                     "item_description": "extensive physical property"
+                },
+                {
+                    "qid": "Q286779",
+                    "name": "half maximal inhibitory concentration",
+                    "item_description": "half-maximal inhibitory concentration"
+                },
+                {
+                    "qid": "Q597889",
+                    "name": "minimum inhibitory concentration",
+                    "item_description": "parameter in microbiology"
                 }
             ]
         }
@@ -7196,6 +7396,11 @@
                     "qid": "Q4365413",
                     "name": "energy flux density",
                     "item_description": null
+                },
+                {
+                    "qid": "Q29996",
+                    "name": "electric current",
+                    "item_description": "base quantity of the International System of Quantities (ISQ), measured in ampere (A)"
                 }
             ]
         }
@@ -7410,6 +7615,21 @@
                     "qid": "Q2783041",
                     "name": "hydraulic conductivity",
                     "item_description": "measure of the ability of a porous material to allow water to pass through it"
+                },
+                {
+                    "qid": "Q7688027",
+                    "name": "Tate–Shafarevich group",
+                    "item_description": null
+                },
+                {
+                    "qid": "Q1754376",
+                    "name": "stress intensity factor",
+                    "item_description": "factor in fracture mechanics"
+                },
+                {
+                    "qid": "Q1733876",
+                    "name": "Karlovitz number",
+                    "item_description": "dimensionless number used in chemical engineering"
                 }
             ]
         }
@@ -7654,6 +7874,21 @@
                     "qid": "Q36253",
                     "name": "length",
                     "item_description": "measured dimension of an object in a physical space"
+                },
+                {
+                    "qid": "Q711849",
+                    "name": "median lethal dose",
+                    "item_description": "a measure of the lethal dose of a toxin, radiation, or pathogen required to kill half of a tested population"
+                },
+                {
+                    "qid": "Q77564939",
+                    "name": "median lethal concentration",
+                    "item_description": null
+                },
+                {
+                    "qid": "Q1290753",
+                    "name": "Spence's function",
+                    "item_description": "special function"
                 }
             ]
         }
@@ -7863,6 +8098,31 @@
                     "qid": "Q48103",
                     "name": "torque",
                     "item_description": "tendency of a force to rotate an object"
+                },
+                {
+                    "qid": "Q77569705",
+                    "name": "minimum explosive concentration",
+                    "item_description": null
+                },
+                {
+                    "qid": "Q11423",
+                    "name": "mass",
+                    "item_description": "property of matter to resist changes of the state of motion and to attract other bodies"
+                },
+                {
+                    "qid": "Q1158816",
+                    "name": "minimum bactericidal concentration",
+                    "item_description": "lowest concentration of an antibacterial agent required to kill a particular bacterium"
+                },
+                {
+                    "qid": "Q9657506",
+                    "name": "bimoment",
+                    "item_description": null
+                },
+                {
+                    "qid": "Q597889",
+                    "name": "minimum inhibitory concentration",
+                    "item_description": "parameter in microbiology"
                 }
             ]
         }
@@ -8758,6 +9018,11 @@
                     "qid": "Q182333",
                     "name": "gas constant",
                     "item_description": "physical constant"
+                },
+                {
+                    "qid": "Q110558361",
+                    "name": "resistance force",
+                    "item_description": "force applied by an item in reaction to an applied force"
                 }
             ]
         }
@@ -9007,6 +9272,11 @@
                     "qid": "Q11500",
                     "name": "area",
                     "item_description": "quantity that expresses the extent of a two-dimensional surface or shape, or planar lamina, in the plane"
+                },
+                {
+                    "qid": "Q12056477",
+                    "name": "storativity",
+                    "item_description": "the volume of water released from storage per unit decline in hydraulic head in an aquifer, per unit area of the aquifer"
                 }
             ]
         }
@@ -9624,6 +9894,11 @@
                     "qid": "Q39297",
                     "name": "volume",
                     "item_description": "quantity of three-dimensional space"
+                },
+                {
+                    "qid": "Q25428",
+                    "name": "voltage",
+                    "item_description": "difference in electric potential between two points in space"
                 }
             ]
         }

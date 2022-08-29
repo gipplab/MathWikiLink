@@ -25,6 +25,7 @@ SPARQL-Properties
 class IdentifierSPARQLUpdater:
     """
     This class reads the extracted list of already known (local) identifiers and re-queries via SPARQL.
+
     If there's a new result (previous value is N/A) or a different QID the index is updated.
     """
 
@@ -34,29 +35,31 @@ class IdentifierSPARQLUpdater:
 
         # Use different SPARQL-Query with P7973 (quantity symbol (LaTex) for more results than P416 (quantity symbol)
         self.identifier_query_latex = """
-    SELECT DISTINCT ?item ?itemLabel ?itemDescription WHERE {{
-        ?item wdt:P7973 ?def.
-        FILTER(CONTAINS(?def, '{}'@en))
-        SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en" .}}
-    }}    
-    LIMIT {}
-    """
+            SELECT DISTINCT ?item ?itemLabel ?itemDescription WHERE {{
+                ?item wdt:P7973 ?def.
+                FILTER(CONTAINS(?def, '{}'@en))
+                SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en" .}}
+            }}    
+            LIMIT {}
+        """
+
         self.wikidata_online_dict = {}
         self.local_dict = {}
         self.n_updated_total = 0
         self.filename = local_file  # Default-Filename
         self.TIME_BETWEEN_QUERY = 2
 
-        # Open JSON-File
-        path = os.path.join('../../dataset/'+self.filename)
+        path = os.path.join('../../dataset/' + self.filename)
 
         with open(path, 'r', encoding='utf-8') as f:
             self.local_dict = json.load(f)
 
+        # Check for each identifier given in the dictionary
         for identifier in self.local_dict:
 
             # Limit the length of identifier in search query to "1" to avoid syntax errors through LaTeX-Content from
             # index file.
+            # TODO: Extend to longer identifiers (especially greek symbols in LaTeX-syntax)
             if len(identifier) == 1:
                 # Add result to temporary dict
                 self.wikidata_online_dict[identifier] = self.query(identifier)
@@ -70,11 +73,11 @@ class IdentifierSPARQLUpdater:
         update_identifier_logger.info('Updated a TOTAL of {} QID to index.'.format(self.n_updated_total))
 
     def dump(self, filename='identifier_index.json'):
+        """
+        Write results to local JSON-File.
+        """
 
-        """
-        Method to write out the JSON-Output-File.
-        """
-        path = os.path.join('../../dataset/'+filename)
+        path = os.path.join('../../dataset/' + filename)
         with open(path, 'w') as f:
             json.dump(self.local_dict, f, ensure_ascii=False, indent=4)
             update_identifier_logger.info('Wrote to file. END.')
@@ -150,8 +153,9 @@ class IdentifierSPARQLUpdater:
 
                     if n_updated_identifiers > 0:
                         update_identifier_logger.info(
-                        'Update: Adding {} new QIDs ({}) for identifier \'{}\' from Wikidata'.format(n_updated_identifiers, diff,
-                                                                                           identifier))
+                            'Update: Adding {} new QIDs ({}) for identifier \'{}\' from Wikidata'.format(
+                                n_updated_identifiers, diff,
+                                identifier))
                     else:
                         update_identifier_logger.info('No new results for identifier \'{}\'.'.format(identifier))
 
@@ -161,7 +165,6 @@ class IdentifierSPARQLUpdater:
 
 
 if __name__ == "__main__":
-
     default_filename = 'identifier_index.json'
 
     # Start up.
