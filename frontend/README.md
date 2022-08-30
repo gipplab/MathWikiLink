@@ -13,10 +13,14 @@ For example, a possible concept name annotation for the formula *E=mc²* would b
 
 ## Previous Work in Preperation for the Script Usage
 
-We changed the MediaWiki Code (that Wikipedia uses for its site) multiple times to add the funcionality of changing the QID Value for formulae and identifiers inside the Visual Editor Formula Quick editor as well as the full-fledged editor.
+We changed the MediaWiki Code (that Wikipedia uses for its site) multiple times to add the funcionality of changing the QID Value for formulae and identifiers inside the Visual Editor Formula full-fledged editor as well as the quick editor (see below).
 You can read through the changes in detail [here](https://gerrit.wikimedia.org/r/c/mediawiki/extensions/Math/+/798804) and [here](https://gerrit.wikimedia.org/r/c/mediawiki/extensions/Math/+/807527).
 
-We will change the MediaWiki Code again soon, since the JS Script is build upon a JS Hook inside the *ve.ui.MwLatexDialog* file that activates whenever the user clicks on the formula editor. This Hook, however, is not yet implemented inside the live Wikipedia Version.
+<a href="url"><img src="media/formulaEditor-extended.jpg" width="680" ></a>
+<a href="url"><img src="media/formulaEditor-quick.jpg" width="315" ></a>
+
+We are currently changing the MediaWiki Code again, since the JS Script is build upon a JS Hook inside the *ve.ui.MwLatexDialog* file that activates whenever the user clicks on the formula editor. This Hook, however, is not yet implemented inside the live Wikipedia Version. 
+See the current MediaWiki Pull request [here](https://gerrit.wikimedia.org/r/c/mediawiki/extensions/Math/+/828040).
 
 
 ## Getting Started
@@ -35,12 +39,13 @@ Paste the Script into the wikipedia site for your individual user scripts:
 
 ## Usage
 
-**---- NOTE: This Script does not work yet, since the neccessary JS Hook is missing inside the Wikipedia files. ----**
+**------ NOTE: This Script does not work yet, since the neccessary JS Hook is missing inside the Wikipedia files. ------**
 
 When implemented correctly, you can go to a formula concept or identifier on wikipedia and open it in the extended formula visual editor. (Note: Does not work in the quick editor due to space restrictions)
 When going to the options tab, the script will automatically show up to three suggestions from multiple sources in the backend .json-file for the identifier or formula string beneath the QID-text field. 
 
-<!-------- ToDo: SCREENSHOT or GIF of showcase --------->
+<img src="media/MathWikiLink-Frontend.gif" width="1000" >
+
 
 Suggestions are presented with their name and correlating wikidata QID. Copy the appropriate QID or wikidata item name into the QID text field to correctly annotate the identifier or formula concept.
 
