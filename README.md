@@ -35,9 +35,17 @@ Set up a virtual environment (Python-Package "virtualenv" needed)
 
     virtualenv mathwikilink_env
 
-Activate the environment. 
+or alternatively
+
+    python -m virtualenv mathwikilink_env
+
+Activate the environment (Linux). 
 
     source mathwikilink_env/bin/activate
+
+Activate the environment (Windows).
+
+    mathwikilink_env\Scripts\activate
 
 Install the requirements
 
