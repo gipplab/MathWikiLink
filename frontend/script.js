@@ -26,8 +26,9 @@ function makeMyTool() {
   function processResponse(response, formula) {
 
     const myObj = JSON.parse(response);
-    var ou = $("#options-panel");
+    var ou = $(".latex-dialog-options-panel").first();
     var disp = "{\\displaystyle "+formula+"}";
+    console.log(disp);
     if(isEquation(formula)){
       var reccomendation = myObj[disp]["name"]; 
       var qid = myObj[disp]["qid"]; 
@@ -38,15 +39,17 @@ function makeMyTool() {
       for (var i = 0; i < recommendation_sources.length; i++) {
         for (var recommendation_index = 0; recommendation_index < 3; recommendation_index++) { 
           if(recommendation_sources[i][Object.keys(recommendation_sources[i])].length > recommendation_index){
+            console.log(recommendation_index);
             var reccomendation =  recommendation_sources[i][Object.keys(recommendation_sources[i])][recommendation_index]["name"];
-            var qid = recommendation_sources[i][Object.keys(recommendation_sources[i])][recommendation_index]["qid"];
+            var qid = recommendation_sources[i][Object.keys(recommendation_sources[i])][recommendation_index]["qid"];  
+            //console.log(reccomendation);
             ou.append(`<div><h4>Name,             QID </h4> <p> ${reccomendation}                 ${qid}  </p> `);
           }
         }
       }
     }
   }
-  var formula = document.getElementById("formula-field").getElementsByTagName("textarea")[0];
+  var formula = document.getElementsByClassName("latex-dialog-formula-field")[0].getElementsByTagName("textarea")[0];
   if(isEquation(formula.value)){
       var url = "https://raw.githubusercontent.com/gipplab/MathWikiLink/master/dataset/formula_string_index.json"}
   else {
@@ -81,4 +84,4 @@ function _asyncToGenerator(fn) {
   };
 }
 
-mw.hook('ve.ui.MwLatexDialog').add( makeMyTool);
+mw.hook('ve.ui.MwLatexDialogReady').add( makeMyTool);
