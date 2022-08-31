@@ -20,7 +20,7 @@ You can read through the changes in detail [here](https://gerrit.wikimedia.org/r
 <a href="url"><img src="media/formulaEditor-quick.jpg" width="315" ></a>
 
 We are currently changing the MediaWiki Code again, since the JS Script is build upon a JS Hook inside the *ve.ui.MwLatexDialog* file that activates whenever the user clicks on the formula editor. This Hook, however, is not yet implemented inside the live Wikipedia Version. 
-See the current MediaWiki Pull request [here](https://gerrit.wikimedia.org/r/c/mediawiki/extensions/Math/+/828040).
+See the current MediaWiki Pull request [here](https://gerrit.wikimedia.org/r/c/mediawiki/extensions/Math/+/828040) as well as the corresponding Phabricator Request [here](https://phabricator.wikimedia.org/T316816).
 
 
 ## Getting Started
