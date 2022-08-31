@@ -27,15 +27,15 @@ For example, a possible concept name annotation for the formula $E=mc^2$ would b
 
 # Installation
 
-For compatibility reasons ***Python Version 3.6 is recommended***.
+For compatibility reasons ***Python Version 3.6.15 is highly recommended***.
 
 Clone the repository. 
 
     git clone https://github.com/gipplab/MathWikiLink
 
-Set up a virtual environment (Python-Package "virtualenv" needed)
+Set up a virtual environment (Python-Package "virtualenv" needed, be sure to use Python 3.6)
 
-    python3.6 -m virtualenv mathwikilink_env
+    python -m virtualenv mathwikilink_env
 
 Activate the environment (Linux). 
 
@@ -45,15 +45,27 @@ Activate the environment (Windows).
 
     mathwikilink_env\Scripts\activate
 
-Install the requirements
+Install the requirements (due to compatibility issues it is possible that setuptools needs to be uninstalled and 
+reinstalled in version 58 before: pip uninstall setuptools, pip install setuptools==58 )
 
+    cd MathWikiLink
     pip install -r requirements.txt
 
 Run the API by
 
     python api.py
 
-The file backend/run/SECRET.key is needed to access the data repository.
+The file backend/run/SECRET.key is needed to access the data repository. If it isn't created automatically,
+try the following for Linux:
+
+    mkdir ./backend/run
+    touch ./backend/run/SECRET.key  
+    
+or Windows:
+
+    mkdir MathWikiLink\backend\run
+    copy NUL MathWikiLink\backend\run\SECRET.key
+    
 
 Deactivate the environment by typing
 
