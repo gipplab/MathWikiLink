@@ -102,12 +102,13 @@ class TokenClickedHandler:
                 'wikidata2Results'] = StaticWikidataHandler().check_formulae(math_env, annotations)
             recommendations_dict['formulaConceptDB'] = FormulaConceptDBHandler().query_tex_string(math_env)
 
-            #recommendations_dict['wikidataSparqlResults'] = MathSparql().all_formulae_search()
+            # recommendations_dict['wikidataSparqlResults'] = MathSparql().all_formulae_search()
             # token_clicked_handler_logger.info(recommendations_dict['formulaConceptDB'])
 
         else:
             token_clicked_handler_logger.info('Faulty token_type: {}'.format(token_type))
 
+        # Deactivated word window as it's not used in the context of MathWikiLink and throws errors otherwise
         # recommendations_dict['wordWindow'] = self.get_word_window(unique_id)
 
         recommendations_dict['manual'] = ManualRecommendationsHandler(

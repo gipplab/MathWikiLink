@@ -10,8 +10,11 @@ SPARQL_URL_PREFIX = 'https://query.wikidata.org/sparql'
 
 # HELPER FUNCTIONS
 
-# get sparql results for sparql query string
 def get_sparql_results(sparql_query_string):
+    """
+    Get sparql results for sparql query string.
+    """
+
     sparql = SPARQLWrapper.SPARQLWrapper(SPARQL_URL_PREFIX)
     sparql.setQuery(sparql_query_string)
     try:
@@ -25,7 +28,10 @@ def get_sparql_results(sparql_query_string):
 
 # MAIN FUNCTIONS
 
-def create_index(save=False):
+def create_index(save=True):
+    """
+    Creates Formula Index.
+    """
 
     formula_index = {}
     qid_index = {}
@@ -77,6 +83,14 @@ def create_index(save=False):
 
 
 def employ_index(formula_input_string, result_limit, formula_index, qid_index):
+    """
+    Employs formula index for recommendation retrieval.
+
+    :param formula_input_string: formula input as a string
+    :param result_limit: number of returned results as an integer
+    :param formula_index: formula index as a string
+    :param qid_index: QID index as a string
+    """
 
     match_candidates = {}
 
@@ -101,7 +115,11 @@ def employ_index(formula_input_string, result_limit, formula_index, qid_index):
 
 # EXECUTE
 
+
 if __name__ == "__main__":
+    """
+    Standalone script for the creation of the formula index and testing.
+    """
 
     print('\nCREATE INDEX\n')
     formula_index,qid_index = create_index()
