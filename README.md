@@ -27,17 +27,15 @@ For example, a possible concept name annotation for the formula $E=mc^2$ would b
 
 # Installation
 
+For compatibility reasons ***Python Version 3.6 is recommended***.
+
 Clone the repository. 
 
     git clone https://github.com/gipplab/MathWikiLink
 
 Set up a virtual environment (Python-Package "virtualenv" needed)
 
-    virtualenv mathwikilink_env
-
-or alternatively
-
-    python -m virtualenv mathwikilink_env
+    python3.6 -m virtualenv mathwikilink_env
 
 Activate the environment (Linux). 
 
