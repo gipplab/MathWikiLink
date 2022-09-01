@@ -45,27 +45,18 @@ Activate the environment (Windows).
 
     mathwikilink_env\Scripts\activate
 
-Install the requirements (due to compatibility issues it is possible that setuptools needs to be uninstalled and 
-reinstalled in version 58 before: pip uninstall setuptools, pip install setuptools==58 )
+Install the requirements (due to compatibility issues it is possible that setuptools 56.2.0 need to be installed
+before)
 
     cd MathWikiLink
+    pip install setuptools==56.2.0
     pip install -r requirements.txt
 
 Run the API by
 
     python api.py
 
-The file backend/run/SECRET.key is needed to access the data repository. If it isn't created automatically,
-try the following for Linux:
-
-    mkdir ./backend/run
-    touch ./backend/run/SECRET.key  
-    
-or Windows:
-
-    mkdir MathWikiLink\backend\run
-    copy NUL MathWikiLink\backend\run\SECRET.key
-    
+The file backend/run/SECRET.key is needed to access the data repository.
 
 Deactivate the environment by typing
 

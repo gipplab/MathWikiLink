@@ -31,16 +31,16 @@ class IndexEvaluationHandler:
         if self.index_type == 'identifier':
             # load identifier index
             path = os.path.join('dataset', 'identifier_index.json')
-            with open(path, 'r') as json_file:
+            with open(path, 'r', encoding='utf-8') as json_file:
                 identifier_dict = json.load(json_file)
             return identifier_dict
         elif self.index_type == 'formula':
             # load formula index
             path = os.path.join('dataset')
-            with open(os.path.join(path, 'formula_string_index.json'), 'r') as f:
+            with open(os.path.join(path, 'formula_string_index.json'), 'r', encoding='utf-8') as f:
                 formula_index = json.load(f)
             # load qid index
-            with open(os.path.join(path, 'formula_qid_index.json'), 'r') as f:
+            with open(os.path.join(path, 'formula_qid_index.json'), 'r', encoding='utf-8') as f:
                 qid_index = json.load(f)
             return formula_index, qid_index
 

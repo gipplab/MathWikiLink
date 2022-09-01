@@ -73,10 +73,10 @@ def create_index(save=True):
     if save == True:
         # save formula index
         path = os.path.join('/dataset/')
-        with open(path + 'formula_string_index.json', 'w') as f:
+        with open(path + 'formula_string_index.json', 'w', encoding='utf-8') as f:
             json.dump(formula_index, f)
         # save qid index
-        with open(path + 'formula_qid_index.json', 'w') as f:
+        with open(path + 'formula_qid_index.json', 'w', encoding='utf-8') as f:
             json.dump(qid_index, f)
 
     return formula_index, qid_index

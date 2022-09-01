@@ -1,4 +1,4 @@
-setuptools==58
+setuptools==56.2.0
 rapidfuzz==0.9.1
 nltk==3.6.6
 SPARQLWrapper==1.8.2
@@ -13,3 +13,10 @@ jquery_unparam==2.0.0
 PyGithub==1.43.7
 wikipedia==1.4.0
 flask
+attrs==21.4.0
+certifi==2021.10.8
+requests==2.27.1
+regex==2022.4.24
+urllib3==1.26.9
+wrapt==1.14.0
+PyJWT==2.3.0

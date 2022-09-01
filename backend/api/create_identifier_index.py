@@ -22,7 +22,7 @@ class ArXivReader:
         :return: The read file as a string, with some unnecessary characters removed.
         """
         path = os.path.join('../annomathtex/recommendation/evaluation_files/Evaluation_list_all.rtf')
-        with open(path, 'r') as f:
+        with open(path, 'r', encoding='utf-8') as f:
             file = f.read()
         file = file.replace('\par', '\n')
         return file.split('\n\n\n\n')[1:]
@@ -64,7 +64,7 @@ def pp(dict_list, source):
 
     def add_qid_all_math(r, in_source):
         path = os.path.join('../annomathtex/recommendation/evaluation_files/math_wikidata_items.json')
-        with open(path, 'r') as f:
+        with open(path, 'r', encoding='utf-8') as f:
             file = f.read()
 
         all_math_items = json.loads(file, encoding = "utf-8")
