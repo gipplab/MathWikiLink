@@ -19,7 +19,7 @@ Use python keyword extraction algorithms
     - RAKE https://www.airpair.com/nlp/keyword-extraction-tutorial
 
 
-Train word2vec on test dataset
+Train word2vec on test index
     - use word2vec and GloVe to determine the similarity between words of surrounding text and the identifier
 https://textminingonline.com/training-word2vec-model-on-english-wikipedia-by-gensim#comment-138807
 https://textminingonline.com/getting-started-with-word2vec-and-glove-in-python

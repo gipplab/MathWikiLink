@@ -117,7 +117,7 @@ if __name__ == "__main__":
     """
     Standalone helper script creating an JSON formatted recommendation identifier index from local source files by 
     employing ArXivReader, WikipediaEvaluationListHandler and StaticWikidataHandler classes as well as local
-    postprocessing(pp) and recommendations_dict_change_order functions, saving it to /dataset/identifier_index.json.
+    postprocessing(pp) and recommendations_dict_change_order functions, saving it to /index/identifier_index.json.
     """
 
     ArXiV_dict = ArXivReader().evaluation_dict
@@ -137,6 +137,6 @@ if __name__ == "__main__":
 
     recommendations_dict_formatted = recommendations_dict_change_order(recommendations_dict)
 
-    path = os.path.join('../../dataset/identifier_index.json')
+    path = os.path.join('../../index/identifier_index.json')
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(recommendations_dict_formatted, f, ensure_ascii=False, indent=4)

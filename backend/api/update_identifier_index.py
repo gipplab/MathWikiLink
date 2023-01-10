@@ -49,7 +49,7 @@ class IdentifierSPARQLUpdater:
         self.filename = local_file  # Default-Filename
         self.TIME_BETWEEN_QUERY = 2
 
-        path = os.path.join('../../dataset/' + self.filename)
+        path = os.path.join('../../index/' + self.filename)
 
         with open(path, 'r', encoding='utf-8') as f:
             self.local_dict = json.load(f)
@@ -77,7 +77,7 @@ class IdentifierSPARQLUpdater:
         Write results to local JSON-File.
         """
 
-        path = os.path.join('../../dataset/' + filename)
+        path = os.path.join('../../index/' + filename)
         with open(path, 'w') as f:
             json.dump(self.local_dict, f, ensure_ascii=False, indent=4)
             update_identifier_logger.info('Wrote to file. END.')

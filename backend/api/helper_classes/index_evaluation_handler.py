@@ -6,7 +6,7 @@ from ..formula_index_retrieval import employ_index
 
 class IndexEvaluationHandler:
     """
-    This class evaluates the identifier index provided in /dataset/identifier_index.json or formulae and QID indices via
+    This class evaluates the identifier index provided in /index/identifier_index.json or formulae and QID indices via
     the formula_index_retrieval.py helper script in /api for recommendation retrieval via HTTP GET requests in api.py.
     """
     def __init__(self, index_type):
@@ -30,13 +30,13 @@ class IndexEvaluationHandler:
         """
         if self.index_type == 'identifier':
             # load identifier index
-            path = os.path.join('dataset', 'identifier_index.json')
+            path = os.path.join('index', 'identifier_index.json')
             with open(path, 'r', encoding='utf-8') as json_file:
                 identifier_dict = json.load(json_file)
             return identifier_dict
         elif self.index_type == 'formula':
             # load formula index
-            path = os.path.join('dataset')
+            path = os.path.join('index')
             with open(os.path.join(path, 'formula_string_index.json'), 'r', encoding='utf-8') as f:
                 formula_index = json.load(f)
             # load qid index

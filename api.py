@@ -25,7 +25,7 @@ def home():
 @app.route('/api/v1/identifier_names', methods=['GET'])
 def get_identifier_names():
     """
-    HTTP GET API endpoint providing recommendations for requested identifier names from local index in /dataset
+    HTTP GET API endpoint providing recommendations for requested identifier names from local index in /index
     or inbuilt AnnoMathTex Instance with live SPARQGL retrieval from wikidata /backend/annomathtex.
 
     :argument identifier: identifier name for which recommendations will be returned
@@ -77,7 +77,7 @@ def get_identifier_names():
 @app.route('/api/v1/formula_names', methods=['GET'])
 def get_formula_names():
     """
-    HTTP GET API endpoint providing recommendations for requested formulae from local index in /dataset
+    HTTP GET API endpoint providing recommendations for requested formulae from local index in /index
     or inbuilt AnnoMathTex Instance with live SPARQGL retrieval from wikidata /backend/annomathtex.
 
     :argument formula: formula for which recommendations will be returned, formatting example: c^2=b^2+c^2
